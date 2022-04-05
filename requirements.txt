@@ -1,0 +1,8 @@
+os
+flask_sqlalchemy
+sqlalchemy
+flask
+flask_session
+werkzeug.security
+werkzeug.utils
+jinja2
