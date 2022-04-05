@@ -1,0 +1,141 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Students
+{% endblock title %}
+
+{% block main %} 
+<script src="/static/search.js"></script>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Edit student</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <div class="container forms">
+        <div class="form1">
+          <form class="form" action="/add" method="post">
+            <input type="number" name="id" id="edit_id" value="" hidden>
+              <div class="form-group mb-3">
+                  <input autocomplete="off" autofocus class="name" id="edit_name" name="name" placeholder="Name" type="text" required value="">
+              </div>
+              <div class="form-group mb-3">
+                  <input autocomplete="off" autofocus class="age" name="age" id="edit_age" min="1" placeholder="Age" type="number" required value="">
+              </div>
+              <div class="form-group mb-3 select" >
+                  <label for="gender">Gender:</label>
+                  <select name="gender" class="option" id="edit_gender" required>
+                      <option disabled selected>Select</option>
+                      <option>Male</option>
+                      <option>Female</option>
+                      <option>Other</option>
+                  </select>
+              </div>
+              <div class="form-group mb-3">
+                  <input autofocus class="name" name="course" id="edit_course" placeholder="Course enrolled" type="text" required>
+              </div>
+              <div class="form-group mb-3">
+                  <input autocomplete="off" autofocus class="number" id="edit_fee" name="fee" min="0" placeholder="Fee $" type="number" required>
+              </div>
+              <div class="form-group mb-3">
+                  <input autocomplete="off" autofocus class="name" id="edit_guardian" name="guardian" placeholder="Guardian name" type="text" required value="">
+              </div>
+              <div class="form-group mb-3">
+                  <input autocomplete="off" autofocus class="name" id="edit_contact" name="g_contact" placeholder="Guardian contact" type="text" required>
+              </div>
+              <div class="form-group mb-3">
+                <input autocomplete="off" autofocus class="name" id="edit_country" name="country" placeholder="Country" type="text" required>
+            </div>
+              <div class="form-group mb-3 select">
+                  <label for="teacher_id">Teacher:</label>
+                  <select name="teacher_id" class="option" id="edit_teacher"> 
+                      <option disabled selected>Select</option>
+                      {% for teacher in teachers %}
+                      <option value="{{ teacher.id }}">{{ teacher.name}}</option>
+                      {% endfor %}
+                  </select>
+                  
+  
+              </div>
+      </div>
+    </div>
+              
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" name="submit" value="edit_student">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container search-box">
+  <input type="text" class="ms-auto" name="search" id="search" placeholder="Search for Name, guardian name, country, gender, course...">
+</div>
+
+<div id="search_r"></div>
+<div class="table-responsive">
+  <p id="total"></p>
+  <table class="table table-hover" id="tstudent">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" class="text-start">Name</th>
+          <th scope="col" class="text-start">Guardian</th>
+          <th scope="col" class="text-start">Country</th>
+          <th scope="col" class="text-start">Contact</th>
+          <th scope="col" class="text-start">Course</th>
+          <th scope="col" class="text-start">Fee</th>
+          <th scope="col" class="text-start" class="teacher">Teacher</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %} 
+          <tr>
+              <th scope="row" class="scope">{{ loop.index }}</th>
+              <th scope="row" class="scope" id="id{{student.id}}" hidden>{{ student.id }}</th>
+              <td class="text-start" id="name{{student.id}}">{{ student.name }}</td>
+              <td class="text-start" id="gender{{student.id}}" hidden>{{ student.gender }}</td>
+              <td class="text-start" id="age{{student.id}}" hidden>{{ student.age }}</td>
+              <td class="text-start" id="guardian{{student.id}}">{{ student.guardian }}</td>
+              <td class="text-start" id="country{{student.id}}">{{ student.country }}</td>
+              <td class="text-start" id="contact{{student.id}}"> {{ student.guardian_contact  }}</td>
+              <td class="text-start" id="course{{student.id}}"> {{ student.course  }}</td>
+              <td class="text-start" id="fee{{student.id}}"> {{ student.fee  }}</td>
+              {% if student.teacher_id %}
+              {% if teachers %}
+                {% for teacher in teachers %}
+                  {% if teacher.id == student.teacher_id %}
+                  <td class="text-start" id="teacher{{student.id}}"> {{ teacher.name  }}</td>
+                  {% endif %}
+                {% endfor %}
+              {% else %}
+              <td class="text-start"></td>
+              {% endif %}
+              {% else %}
+              <td></td>
+              {% endif %}
+              <td class="text-start">
+                  <form action="/edit">
+                    <input value="{{student.teacher_id }}" id="t_{{student.id}}" hidden>
+                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="edit(this.value)" value="{{ student.id }}">edit</button>
+                  </form>
+              </td>
+              <td class="text-start">
+                  <form action="/delete">
+                      <input type="number" name="id" value="{{ student.id }}" hidden>
+                      <input type="text" name="page" value="student" hidden>
+                      <button class="btn btn-primary" type="submit">delete</button>
+                  </form>
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+
+{% endblock main %}

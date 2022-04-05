@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock title %}
+
+{% block main %}
+<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+<!--{% if not session["school"] %}
+<form action="/school" hidden method="post" id="schoolf"><input value="" id="tmpinp" name="schoolname"></form>
+<script>
+  let school = prompt("Enter your school name: ");
+  if (school != null) 
+  {
+    document.getElementById("tmpinp").value = school;
+    document.getElementById("schoolf").submit();
+    document.getElementById("schoolf").remove();
+  }
+  else location.reload();
+</script>
+
+{% endif %} -->
+<div class="container vw-100 container-custom" style="padding:7%" >
+	<div class="row" style="padding: 0 0 15px 0;">
+	    <br/>
+	   <div class="col text-center">
+		<h2>School Database</h2>
+		<p>A simple super fast application to keep track of students, teachers, salaries and fees.</p>
+		</div>
+             
+		
+	</div>
+		<div class="row text-center box">
+	        <div class="col box">
+	        <div class="counter">
+      <i class="fa fa-users fa-2x"></i>
+      <h2 class="timer count-title count-number" data-to="{{ data['students'] }}" data-speed="1500"></h2>
+       <p class="count-text ">Students</p>
+    </div>
+	        </div>
+              <div class="col box">
+                <div class="counter">
+            <i class="fa fa-users fa-2x"></i>
+            <h2 class="timer count-title count-number" data-to="{{ data['males'] }}" data-speed="1500"></h2>
+             <p class="count-text ">Male Students</p>
+          </div>
+                </div>
+                <div class="col box">
+                  <div class="counter">
+              <i class="fa fa-users fa-2x"></i>
+              <h2 class="timer count-title count-number" data-to="{{ data['females'] }}" data-speed="1500"></h2>
+               <p class="count-text ">Female Students</p>
+            </div>
+            </div>
+              <div class="col box">
+               <div class="counter">
+      <i class="fa fa-male fa-2x"></i>
+      <h2 class="timer count-title count-number" data-to="{{ data['teachers'] }}" data-speed="1500"></h2>
+      <p class="count-text ">Teachers</p>
+    </div>
+              </div>
+              <div class="col box">
+                  <div class="counter">
+      <i class="fa fa-usd fa-2x"></i>
+      <h2 class="timer count-title count-number" data-to="{{ data['fee'] }}" data-speed="1500"></h2>
+      <p class="count-text ">Total Fees</p>
+    </div></div>
+              <div class="col box">
+              <div class="counter">
+      <i class="fa fa-usd fa-2x"></i>
+      <h2 class="timer count-title count-number" data-to="{{ data['salary'] }}" data-speed="1500"></h2>
+      <p class="count-text ">Total Salaries</p>
+    </div>
+              </div>
+              
+         </div>
+</div>
+{% endblock main %}
